@@ -1,11 +1,21 @@
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../Firebase/Firebase.config";
+
 const Register = () => {
 
     const submitHendaler = (e) => {
         e.preventDefault()
-        const email=e.target.email.value
-        const password=e.target.password.value
-        console.log("Clicket",email,password);
+        const email = e.target.email.value
+        const password = e.target.password.value
+        console.log("Clicket", email, password);
 
+        createUserWithEmailAndPassword(auth,email,password)
+        .then(result=>{
+            console.log(result.user);
+        })
+        .catch(error=>{
+            console.log(error);
+        })
     }
 
     return (
