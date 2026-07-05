@@ -1,21 +1,33 @@
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../Firebase/Firebase.config";
+// import { useState } from "react";
+import { toast } from "react-toastify";
 
 const Register = () => {
+
+    // const[Error,setError]=useState('')
+    // const [success,setSuccess]=useState(false)
 
     const submitHendaler = (e) => {
         e.preventDefault()
         const email = e.target.email.value
         const password = e.target.password.value
         console.log("Clicket", email, password);
+        // setError('')
+        // setSuccess(false)
 
-        createUserWithEmailAndPassword(auth,email,password)
-        .then(result=>{
-            console.log(result.user);
-        })
-        .catch(error=>{
-            console.log(error);
-        })
+        createUserWithEmailAndPassword(auth, email, password)
+            .then(result => {
+                console.log(result.user);
+                // setSuccess(true)
+                e.target.reset()
+                toast.success("Account Create Success")
+            })
+            .catch(error => {
+                console.log(error.message);
+                // setError(error.message)
+                toast.error(error.message)
+            })
     }
 
     return (
