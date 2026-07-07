@@ -10,13 +10,14 @@ const Register = () => {
 
     // const[Error,setError]=useState('')
     // const [success,setSuccess]=useState(false)
-    const[showPasswrod,setShowPassword]=useState(false)
+    const [showPasswrod, setShowPassword] = useState(false)
 
     const submitHendaler = (e) => {
         e.preventDefault()
         const email = e.target.email.value
         const password = e.target.password.value
-        console.log("Clicket", email, password);
+        const checkbox=e.target.checkbox.checked
+        console.log("Clicket", email, password,checkbox);
         // setError('')
         // setSuccess(false)
 
@@ -34,7 +35,7 @@ const Register = () => {
             })
     }
 
-    const toggleShowPassword=()=>{
+    const toggleShowPassword = () => {
         setShowPassword(!showPasswrod)
     }
 
@@ -52,10 +53,14 @@ const Register = () => {
                                 <input type="email" className="input" placeholder="Email" name="email" />
                                 <label className="label">Password</label>
                                 <div className="relative text-center">
-                                    <input type={showPasswrod?"text":"password"} className="input" name="password" placeholder="Password" />
-                                    <button onClick={toggleShowPassword} className="btn btn-xs absolute top-2 right-5" type="button">{showPasswrod?<FaEyeSlash />
-:<IoEyeSharp />
-}</button>
+                                    <input type={showPasswrod ? "text" : "password"} className="input" name="password" placeholder="Password" />
+                                    <button onClick={toggleShowPassword} className="btn btn-xs absolute top-2 right-5" type="button">{showPasswrod ? <FaEyeSlash /> : <IoEyeSharp />}</button>
+                                </div>
+                                <div>
+                                    <label className="label">
+                                        <input type="checkbox" name="checkbox" className="checkbox" />
+                                        Remember me
+                                    </label>
                                 </div>
                                 <div><a className="link link-hover">Forgot password?</a></div>
                                 <button className="btn btn-neutral mt-4">Registar</button>
