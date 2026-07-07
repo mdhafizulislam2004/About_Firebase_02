@@ -1,12 +1,16 @@
 import { createUserWithEmailAndPassword } from "firebase/auth";
+import { IoEyeSharp } from "react-icons/io5";
+import { FaEyeSlash } from "react-icons/fa";
 import { auth } from "../Firebase/Firebase.config";
 // import { useState } from "react";
 import { toast } from "react-toastify";
+import { useState } from "react";
 
 const Register = () => {
 
     // const[Error,setError]=useState('')
     // const [success,setSuccess]=useState(false)
+    const[showPasswrod,setShowPassword]=useState(false)
 
     const submitHendaler = (e) => {
         e.preventDefault()
@@ -30,6 +34,10 @@ const Register = () => {
             })
     }
 
+    const toggleShowPassword=()=>{
+        setShowPassword(!showPasswrod)
+    }
+
     return (
         <div className="hero bg-base-200 min-h-screen">
             <div className="hero-content flex-col lg:flex-row-reverse">
@@ -43,7 +51,12 @@ const Register = () => {
                                 <label className="label">Email</label>
                                 <input type="email" className="input" placeholder="Email" name="email" />
                                 <label className="label">Password</label>
-                                <input type="password" className="input" name="password" placeholder="Password" />
+                                <div className="relative text-center">
+                                    <input type={showPasswrod?"text":"password"} className="input" name="password" placeholder="Password" />
+                                    <button onClick={toggleShowPassword} className="btn btn-xs absolute top-2 right-5" type="button">{showPasswrod?<FaEyeSlash />
+:<IoEyeSharp />
+}</button>
+                                </div>
                                 <div><a className="link link-hover">Forgot password?</a></div>
                                 <button className="btn btn-neutral mt-4">Registar</button>
                             </fieldset>
