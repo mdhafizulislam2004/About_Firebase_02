@@ -5,6 +5,7 @@ import { auth } from "../Firebase/Firebase.config";
 // import { useState } from "react";
 import { toast } from "react-toastify";
 import { useState } from "react";
+import { NavLink } from "react-router";
 
 const Register = () => {
 
@@ -16,10 +17,16 @@ const Register = () => {
         e.preventDefault()
         const email = e.target.email.value
         const password = e.target.password.value
-        const checkbox=e.target.checkbox.checked
-        console.log("Clicket", email, password,checkbox);
+        const checkbox = e.target.checkbox.checked
+        console.log("Clicket", email, password, checkbox);
         // setError('')
         // setSuccess(false)
+
+        if (!checkbox) {
+            toast.error("Plese Select The Chackbox")
+            return
+        }
+
 
         createUserWithEmailAndPassword(auth, email, password)
             .then(result => {
@@ -39,9 +46,10 @@ const Register = () => {
         setShowPassword(!showPasswrod)
     }
 
+
     return (
         <div className="hero bg-base-200 min-h-screen">
-            <div className="hero-content flex-col lg:flex-row-reverse">
+            <div className="hero-content flex-col w-full">
                 <div className="text-center lg:text-left">
                     <h1 className="text-5xl font-bold">Register now!</h1>
                 </div>
@@ -52,7 +60,7 @@ const Register = () => {
                                 <label className="label">Email</label>
                                 <input type="email" className="input" placeholder="Email" name="email" />
                                 <label className="label">Password</label>
-                                <div className="relative text-center">
+                                <div className="relative">
                                     <input type={showPasswrod ? "text" : "password"} className="input" name="password" placeholder="Password" />
                                     <button onClick={toggleShowPassword} className="btn btn-xs absolute top-2 right-5" type="button">{showPasswrod ? <FaEyeSlash /> : <IoEyeSharp />}</button>
                                 </div>
@@ -66,6 +74,7 @@ const Register = () => {
                                 <button className="btn btn-neutral mt-4">Registar</button>
                             </fieldset>
                         </form>
+                        <p>Alredy Have An Account? <NavLink className="text-blue-500 underline" to="/login">Login</NavLink></p>
                     </div>
                 </div>
             </div>
