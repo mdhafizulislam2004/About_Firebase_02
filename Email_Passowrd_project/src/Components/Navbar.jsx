@@ -1,11 +1,24 @@
-import { NavLink } from "react-router";
+import { useState } from "react";
+import { NavLink, useNavigate } from "react-router";
 
 const Navbar = () => {
+    const [toggle, setToggle] = useState(false)
+    const navigate = useNavigate()
     const links = <>
         <li className="md:m-2"><NavLink className={({ isActive }) => isActive ? "text-red-400" : "text-black"} to="/">Home</NavLink></li>
-        <li className="md:m-2"><NavLink className={({ isActive }) => isActive ? "text-red-400" : "text-black"} to="/login">Login</NavLink></li>
-        <li className="md:m-2"><NavLink className={({ isActive }) => isActive ? "text-red-400" : "text-black"} to="/register">Register</NavLink></li>
+        {/* <li className="md:m-2"><NavLink className={({ isActive }) => isActive ? "text-red-400" : "text-black"} to="/">About</NavLink></li> */}
+        {/* <li className="md:m-2"><NavLink className={({ isActive }) => isActive ? "text-red-400" : "text-black"} to="/other">Register</NavLink></li> */}
     </>
+
+    const toggleHendaler = () => {
+        setToggle(!toggle)
+        if (!toggle) {
+            navigate("/register");
+        } else {
+            navigate("/login");
+        }
+    }
+
     return (
         <div className="navbar shadow-sm">
             <div className="navbar-start">
@@ -27,7 +40,10 @@ const Navbar = () => {
                 </ul>
             </div>
             <div className="navbar-end">
-                <a className="btn">Button</a>
+                <label className="label text-black font-extrabold">
+                    {toggle ? "Register" : <NavLink  to="/login">Login</NavLink>}
+                    <input onClick={toggleHendaler} type="checkbox" className="toggle" />
+                </label>
             </div>
         </div>
     );

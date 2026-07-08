@@ -18,7 +18,9 @@ const Register = () => {
         const email = e.target.email.value
         const password = e.target.password.value
         const checkbox = e.target.checkbox.checked
-        console.log("Clicket", email, password, checkbox);
+        const name=e.target.name.value
+        const photo=e.target.photo.value
+        console.log("Clicket", email, password, checkbox,name,photo);
         // setError('')
         // setSuccess(false)
 
@@ -28,7 +30,7 @@ const Register = () => {
         }
 
 
-        createUserWithEmailAndPassword(auth, email, password)
+        createUserWithEmailAndPassword(auth, email, password,name)
             .then(result => {
                 console.log(result.user);
                 // setSuccess(true)
@@ -61,6 +63,13 @@ const Register = () => {
                     <div className="card-body">
                         <form onSubmit={submitHendaler}>
                             <fieldset className="fieldset">
+                                {/* User Name  */}
+                                <label className="label">Name</label>
+                                <input type="email" className="input" placeholder="name" name="name" />
+                                {/* Photo Url  */}
+                                <label className="label">Photo Url</label>
+                                <input type="email" className="input" placeholder="Photo Url" name="Photo" />
+                                {/* User Email */}
                                 <label className="label">Email</label>
                                 <input type="email" className="input" placeholder="Email" name="email" />
                                 <label className="label">Password</label>
@@ -74,7 +83,6 @@ const Register = () => {
                                         Remember me
                                     </label>
                                 </div>
-                                <div><a className="link link-hover">Forgot password?</a></div>
                                 <button className="btn btn-neutral mt-4">Registar</button>
                             </fieldset>
                         </form>

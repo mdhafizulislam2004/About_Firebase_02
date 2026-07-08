@@ -28,9 +28,7 @@ const Login = () => {
                 console.log(error.message);
                 toast.error(error.message)
             })
-
     }
-
     const forgetPassword = () => {
         console.log("Forget Password");
         const email = emailRef.current.value("")
