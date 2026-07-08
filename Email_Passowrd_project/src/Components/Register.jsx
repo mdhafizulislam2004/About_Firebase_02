@@ -1,4 +1,4 @@
-import { createUserWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
+import { createUserWithEmailAndPassword, sendEmailVerification, updateProfile } from "firebase/auth";
 import { IoEyeSharp } from "react-icons/io5";
 import { FaEyeSlash } from "react-icons/fa";
 import { auth } from "../Firebase/Firebase.config";
@@ -18,9 +18,9 @@ const Register = () => {
         const email = e.target.email.value
         const password = e.target.password.value
         const checkbox = e.target.checkbox.checked
-        const name=e.target.name.value
-        const photo=e.target.photo.value
-        console.log("Clicket", email, password, checkbox,name,photo);
+        const name = e.target.name.value
+        const photo = e.target.photo.value
+        console.log("Clicket", email, password, checkbox, name, photo);
         // setError('')
         // setSuccess(false)
 
@@ -30,16 +30,32 @@ const Register = () => {
         }
 
 
-        createUserWithEmailAndPassword(auth, email, password,name)
+        createUserWithEmailAndPassword(auth, email, password)
             .then(result => {
                 console.log(result.user);
                 // setSuccess(true)
                 e.target.reset()
                 toast.success("Account Create Success")
-                 sendEmailVerification(auth.currentUser)
-                 .then(()=>{
-                    toast.error("Verify Your Email Address")
-                 })
+
+                
+                //Update Profie
+                updateProfile(result.user,{
+                    displayName:name,
+                    photoURL:photo
+                })
+                .then(()=>{
+                    toast.success("Profile Update")
+                })
+                .catch(error=>{
+                    console.log(error.message);
+                })
+
+
+                //Verifi Email
+                sendEmailVerification(auth.currentUser)
+                    .then(() => {
+                        toast.error("Verify Your Email Address")
+                    })
             })
             .catch(error => {
                 console.log(error.message);
@@ -65,10 +81,10 @@ const Register = () => {
                             <fieldset className="fieldset">
                                 {/* User Name  */}
                                 <label className="label">Name</label>
-                                <input type="email" className="input" placeholder="name" name="name" />
+                                <input type="name" className="input" placeholder="name" name="name" />
                                 {/* Photo Url  */}
                                 <label className="label">Photo Url</label>
-                                <input type="email" className="input" placeholder="Photo Url" name="Photo" />
+                                <input type="text" className="input" placeholder="Photo Url" name="photo" />
                                 {/* User Email */}
                                 <label className="label">Email</label>
                                 <input type="email" className="input" placeholder="Email" name="email" />
