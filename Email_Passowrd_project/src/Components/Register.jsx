@@ -1,4 +1,4 @@
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
 import { IoEyeSharp } from "react-icons/io5";
 import { FaEyeSlash } from "react-icons/fa";
 import { auth } from "../Firebase/Firebase.config";
@@ -34,6 +34,10 @@ const Register = () => {
                 // setSuccess(true)
                 e.target.reset()
                 toast.success("Account Create Success")
+                 sendEmailVerification(auth.currentUser)
+                 .then(()=>{
+                    toast.error("Verify Your Email Address")
+                 })
             })
             .catch(error => {
                 console.log(error.message);

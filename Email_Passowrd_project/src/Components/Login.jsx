@@ -1,26 +1,51 @@
-import {signInWithEmailAndPassword } from "firebase/auth";
+import { sendPasswordResetEmail, signInWithEmailAndPassword } from "firebase/auth";
 import { NavLink } from "react-router";
 import { auth } from "../Firebase/Firebase.config";
 import { toast } from "react-toastify";
+import { useRef, useState } from "react";
+import { PiEyeBold, PiEyeClosed } from "react-icons/pi";
 
 const Login = () => {
 
-    const submitHendaler=(e)=>{
-        e.preventDefault()
-        const email=e.target.email.value
-        const password=e.target.password.value
-        console.log(email,password);
+    const [showPassword, setShowPassword] = useState(false)
+    const emailRef = useRef()
 
-        signInWithEmailAndPassword(auth,email,password)
-        .then(result=>{
-            console.log(result.user);
-            e.target.reset()
-        })
-        .catch(error=>{
-            console.log(error.message);
-            toast.error(error.message)
-        })
-        
+    const submitHendaler = (e) => {
+        e.preventDefault()
+        const email = e.target.email.value
+        const password = e.target.password.value
+        console.log(email, password);
+
+        signInWithEmailAndPassword(auth, email, password)
+            .then(result => {
+                console.log(result.user);
+                e.target.reset()
+                if (!result.user.emailVerified) {
+                    toast.error("Verify Your Email Address")
+                }
+            })
+            .catch(error => {
+                console.log(error.message);
+                toast.error(error.message)
+            })
+
+    }
+
+    const forgetPassword = () => {
+        console.log("Forget Password");
+        const email = emailRef.current.value("")
+        sendPasswordResetEmail(auth, email)
+            .then(() => {
+                toast.success("Please Chack Your Email")
+            })
+            .catch(error => {
+                console.log(error.message);
+            })
+
+    }
+
+    const togglePasswordShow = () => {
+        setShowPassword(!showPassword)
     }
 
     return (
@@ -34,10 +59,13 @@ const Login = () => {
                         <form onSubmit={submitHendaler}>
                             <fieldset className="fieldset">
                                 <label className="label">Email</label>
-                                <input type="email" className="input" placeholder="Email" name="email" />
+                                <input type="email" className="input" placeholder="Email" ref={emailRef} name="email" />
                                 <label className="label">Password</label>
-                                <input type="password" className="input" name="password" placeholder="Password" />
-                                <div><a className="link link-hover">Forgot password?</a></div>
+                                <div className="relative">
+                                    <input type={showPassword ? "text" : "password"} className="input" name="password" placeholder="Password" />
+                                    <button className="btn-xs btn absolute top-2 right-5" type="button" onClick={togglePasswordShow}>{showPassword ?<PiEyeClosed/>:<PiEyeBold/>}</button>
+                                </div>
+                                <div><a className="link link-hover" onClick={forgetPassword}>Forgot password?</a></div>
                                 <button className="btn btn-neutral mt-4">Login</button>
                             </fieldset>
                         </form>
